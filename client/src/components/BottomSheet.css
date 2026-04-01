@@ -1,0 +1,33 @@
+.sheet-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.sheet {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 201;
+  max-height: 85dvh;
+  overflow-y: auto;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+  touch-action: none;
+}
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--text-muted);
+  opacity: 0.35;
+  border-radius: 4px;
+  margin: 10px auto 0;
+}
+.sheet-title {
+  font-size: 1.05rem; font-weight: 700;
+  padding: 14px 20px 0;
+}
+.sheet-body {
+  padding: 12px 20px 32px;
+}

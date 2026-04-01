@@ -110,7 +110,7 @@ body {
 }
 
 .btn-icon {
-  width: 44px; height: 44px; padding: 0;
+  width: 48px; height: 48px; padding: 0;
   border-radius: 50%;
   font-size: 1.2rem;
 }
@@ -142,17 +142,20 @@ body {
 }
 
 /* ── Category pills ───────────────────────────────────── */
-.cat-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.cat-pills { display: flex; flex-wrap: wrap; gap: 10px; }
 .cat-pill {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 14px; border-radius: 50px;
+  padding: 10px 16px; border-radius: 50px;
   border: 1.5px solid var(--border);
   background: var(--bg-glass);
-  font-size: 0.85rem; font-weight: 500;
+  font-size: 0.88rem; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   color: var(--text);
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 .cat-pill:hover { border-color: var(--primary); }
+.cat-pill:active { transform: scale(0.95); }
 .cat-pill.active {
   background: var(--gradient);
   color: #fff; border-color: transparent;
@@ -229,3 +232,26 @@ body {
 }
 .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
 .empty-state p { font-size: 0.95rem; }
+
+/* ── Splash Screen ──────────────────────────────────── */
+.splash-screen {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 100dvh;
+  background: var(--gradient);
+  animation: fadeIn 0.4s ease;
+}
+.splash-icon {
+  font-size: 4.5rem;
+  margin-bottom: 12px;
+  animation: pulse 1.5s ease infinite;
+}
+.splash-title {
+  font-size: 1.6rem; font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.splash-screen .spinner {
+  border-color: rgba(255,255,255,0.25);
+  border-top-color: #fff;
+}

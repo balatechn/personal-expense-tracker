@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { budgets } from '../api';
+import { hapticTap, hapticSuccess } from '../utils/haptics';
 import './Settings.css';
 
 export default function Settings({ toast }) {
@@ -19,6 +19,7 @@ export default function Settings({ toast }) {
     setSavingBudget(true);
     try {
       await budgets.set({ category: 'overall', amount: parseFloat(budgetAmount), period: 'monthly' });
+      hapticSuccess();
       toast.success('Budget set!');
       setBudgetAmount('');
     } catch (e) {
@@ -52,12 +53,7 @@ export default function Settings({ toast }) {
   }
 
   return (
-    <motion.div
-      className="container"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
+    <div className="container">
       <div className="page-header">
         <h1>Settings</h1>
       </div>
@@ -78,7 +74,7 @@ export default function Settings({ toast }) {
       {/* Theme */}
       <div className="card settings-section">
         <h3>Appearance</h3>
-        <div className="settings-row clickable" onClick={toggle}>
+        <div className="settings-row clickable" onClick={() => { hapticTap(); toggle(); }}>
           <span className="settings-label">🌙 Dark Mode</span>
           <div className={`toggle ${dark ? 'on' : ''}`}>
             <div className="toggle-thumb" />
@@ -114,9 +110,9 @@ export default function Settings({ toast }) {
       </div>
 
       {/* Logout */}
-      <button className="btn btn-danger btn-full" style={{ marginTop: 16 }} onClick={logout}>
-        🚪 Sign Out
+      <button className="btn btn-danger btn-full" style={{ marginTop: 16 }} onClick={() => { hapticTap(); logout(); }}>
+        🚿 Sign Out
       </button>
-    </motion.div>
+    </div>
   );
 }

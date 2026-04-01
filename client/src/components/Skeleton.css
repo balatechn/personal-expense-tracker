@@ -1,0 +1,10 @@
+.skeleton-box {
+  background: linear-gradient(90deg, var(--border) 25%, var(--bg-glass) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-wrap { animation: fadeIn 0.2s ease; }

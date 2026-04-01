@@ -12,6 +12,9 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     localStorage.setItem('theme', dark ? 'dark' : 'light');
+    // Sync status bar color with theme
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', dark ? '#0f172a' : '#6366f1');
   }, [dark]);
 
   const toggle = useCallback(() => setDark(d => !d), []);

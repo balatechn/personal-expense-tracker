@@ -1,6 +1,6 @@
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
-  height: var(--nav-height);
+  height: calc(var(--nav-height) + 4px);
   display: flex; align-items: center; justify-content: space-around;
   background: var(--bg-nav);
   backdrop-filter: blur(20px);
@@ -16,11 +16,47 @@
   color: var(--text-muted);
   font-size: 0.7rem; font-weight: 600;
   cursor: pointer;
-  padding: 6px 16px;
+  padding: 8px 18px;
   border-radius: 12px;
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  min-width: 48px;
+  min-height: 48px;
+  justify-content: center;
 }
 .nav-item .nav-icon { font-size: 1.3rem; transition: transform 0.2s; }
 .nav-item.active { color: var(--primary); }
 .nav-item.active .nav-icon { transform: scale(1.15); }
+
+.nav-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--primary);
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: fadeIn 0.2s ease;
+}
+
+/* Floating Add Button */
+.nav-fab {
+  padding: 0;
+  position: relative;
+  top: -18px;
+}
+.fab-circle {
+  display: flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--gradient);
+  font-size: 1.5rem;
+  box-shadow: 0 4px 20px rgba(99,102,241,0.45);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-fab:active .fab-circle { transform: scale(0.92); }
+.nav-fab.active .fab-circle {
+  box-shadow: 0 6px 28px rgba(99,102,241,0.6);
+  transform: scale(1.08);
+}

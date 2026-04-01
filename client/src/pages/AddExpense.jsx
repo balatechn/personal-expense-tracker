@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { expenses, categories as catApi } from '../api';
 import { useVoice, parseVoiceInput } from '../hooks/useVoice';
+import { hapticTap, hapticSuccess, hapticError } from '../utils/haptics';
 import './AddExpense.css';
 
 export default function AddExpense({ toast, onSaved }) {
@@ -56,11 +57,13 @@ export default function AddExpense({ toast, onSaved }) {
         note,
         date,
       });
+      hapticSuccess();
       toast.success(`₹${amount} saved!`);
       setAmount(''); setNote(''); setCategory('Food');
       setDate(new Date().toISOString().slice(0, 10));
       onSaved?.();
     } catch (err) {
+      hapticError();
       toast.error(err.message);
     } finally {
       setSaving(false);
@@ -68,12 +71,7 @@ export default function AddExpense({ toast, onSaved }) {
   }
 
   return (
-    <motion.div
-      className="container"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
+    <div className="container">
       <div className="page-header">
         <h1>Add Expense</h1>
         {supported && (
@@ -116,7 +114,7 @@ export default function AddExpense({ toast, onSaved }) {
             <button
               key={c.id}
               className={`cat-pill ${category === c.name ? 'active' : ''}`}
-              onClick={() => setCategory(c.name)}
+              onClick={() => { hapticTap(); setCategory(c.name); }}
             >
               <span>{c.icon}</span> {c.name}
             </button>
@@ -166,6 +164,6 @@ export default function AddExpense({ toast, onSaved }) {
       >
         {saving ? 'Saving...' : '💾 Save Expense'}
       </button>
-    </motion.div>
+    </div>
   );
 }

@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useCallback } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import { expenses } from '../api';
 import { useAuth } from '../context/AuthContext';
+import { DashboardSkeleton } from '../components/Skeleton';
+import PullToRefresh from '../components/PullToRefresh';
+import { hapticTap } from '../utils/haptics';
 import './Dashboard.css';
 
 const COLORS = ['#f97316','#3b82f6','#22c55e','#eab308','#ec4899','#8b5cf6','#ef4444','#06b6d4','#6b7280'];
@@ -13,28 +15,22 @@ export default function Dashboard({ toast }) {
   const [period, setPeriod] = useState('month');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const load = useCallback(() => {
     setLoading(true);
-    expenses.summary(period)
+    return expenses.summary(period)
       .then(setData)
       .catch(e => toast.error(e.message))
       .finally(() => setLoading(false));
   }, [period]);
 
-  if (loading) return <div className="container"><div className="spinner" /></div>;
-  if (!data)   return null;
+  useEffect(() => { load(); }, [load]);
 
-  const budgetPercent = data.budget
-    ? Math.min((data.total / data.budget.amount) * 100, 100)
-    : null;
+  const handleRefresh = useCallback(async () => {
+    await expenses.summary(period).then(setData).catch(() => {});
+  }, [period]);
 
   return (
-    <motion.div
-      className="container"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
+    <div className="container">
       <div className="page-header">
         <h1>Hi, {user?.name || 'there'} 👋</h1>
       </div>
@@ -45,13 +41,22 @@ export default function Dashboard({ toast }) {
           <button
             key={p}
             className={`period-tab ${period === p ? 'active' : ''}`}
-            onClick={() => setPeriod(p)}
+            onClick={() => { hapticTap(); setPeriod(p); }}
           >
             {p.charAt(0).toUpperCase() + p.slice(1)}
           </button>
         ))}
       </div>
 
+      {loading ? <DashboardSkeleton /> : !data ? null : (
+        <PullToRefresh onRefresh={handleRefresh}>
+
+      {(() => {
+        const budgetPercent = data.budget
+          ? Math.min((data.total / data.budget.amount) * 100, 100)
+          : null;
+        return (
+          <>
       {/* Total card */}
       <div className="total-card card">
         <span className="total-label">Total Spent</span>
@@ -174,6 +179,11 @@ export default function Dashboard({ toast }) {
           <p>No expenses yet this {period}. Tap + to add one!</p>
         </div>
       )}
-    </motion.div>
+          </>
+        );
+      })()}
+        </PullToRefresh>
+      )}
+    </div>
   );
 }
