@@ -2,6 +2,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Force development mode during build so devDependencies are installed
+ENV NODE_ENV=development
+
 # Install build tools for native modules (better-sqlite3)
 RUN apk add --no-cache python3 make g++
 
@@ -12,7 +15,7 @@ COPY client/package*.json ./client/
 RUN cd client && npm install
 
 COPY . .
-RUN cd client && ./node_modules/.bin/vite build
+RUN cd client && npx vite build
 
 # ── Production image ─────────────────────────────────────
 FROM node:20-alpine
