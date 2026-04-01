@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import db, { seedCategories } from '../db.js';
-import { generateToken } from '../middleware/auth.js';
+import { generateToken, authenticate } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -50,8 +50,7 @@ router.post('/login', (req, res) => {
 });
 
 // ── Get current user ─────────────────────────────────────
-router.get('/me', (req, res) => {
-  // This route uses auth middleware at the app level
+router.get('/me', authenticate, (req, res) => {
   const user = db.prepare('SELECT id, email, name, currency, created_at FROM users WHERE id = ?').get(req.userId);
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json(user);

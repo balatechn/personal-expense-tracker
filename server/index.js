@@ -23,11 +23,10 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
-// ── Public auth routes ───────────────────────────────────
+// ── Public auth routes (register, login) + protected /me ─
 app.use('/api/auth', authRoutes);
 
 // ── Protected routes ─────────────────────────────────────
-app.use('/api/auth/me', authenticate);
 app.use('/api/expenses', authenticate, expenseRoutes);
 app.use('/api/categories', authenticate, categoryRoutes);
 app.use('/api/budgets', authenticate, budgetRoutes);
