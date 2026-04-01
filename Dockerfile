@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -6,25 +6,32 @@ WORKDIR /app
 RUN apk add --no-cache python3 make g++
 
 COPY package*.json ./
-RUN npm install --production=false
+RUN npm install
 
 COPY client/package*.json ./client/
 RUN cd client && npm install
 
 COPY . .
-RUN cd client && npx vite build
+RUN cd client && ./node_modules/.bin/vite build
 
-# Remove dev deps & build tools
-RUN npm prune --production && apk del python3 make g++
+# ── Production image ─────────────────────────────────────
+FROM node:20-alpine
 
-# Persistent data directory
+WORKDIR /app
+
+RUN apk add --no-cache python3 make g++
+
+COPY package*.json ./
+RUN npm install --omit=dev && apk del python3 make g++
+
+COPY --from=builder /app/client/dist ./client/dist
+COPY server ./server
+
 RUN mkdir -p /app/data
 VOLUME ["/app/data"]
 
 ENV NODE_ENV=production
 ENV PORT=3001
-ENV DB_PATH=/app/data/expenses.db
-ENV JWT_SECRET=expense-tracker-prod-change-me
 
 EXPOSE 3001
 
