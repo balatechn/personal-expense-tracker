@@ -1,0 +1,33 @@
+.filter-card { margin-bottom: 16px; overflow: hidden; }
+.filter-row { display: flex; gap: 10px; }
+
+.day-group { margin-bottom: 16px; }
+.day-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 4px; font-size: 0.8rem; font-weight: 600;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.day-total { color: var(--primary); }
+
+.expense-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; margin-bottom: 8px;
+}
+.expense-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.expense-cat { font-weight: 600; font-size: 0.9rem; }
+.expense-note { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.expense-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.expense-amount { font-weight: 700; font-size: 1rem; color: #ef4444; white-space: nowrap; }
+.expense-actions { display: flex; gap: 4px; }
+.small-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 0.9rem; padding: 4px 6px; border-radius: 6px;
+  transition: background 0.15s;
+}
+.small-btn:hover { background: var(--border); }
+.small-btn.del:hover { background: rgba(239,68,68,0.15); }
+
+.edit-form { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.edit-form .input { padding: 10px 12px; font-size: 0.9rem; }
+.edit-actions { display: flex; gap: 8px; }
+.edit-actions .btn { flex: 1; padding: 10px; font-size: 0.85rem; }

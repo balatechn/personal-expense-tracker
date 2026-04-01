@@ -1,0 +1,28 @@
+{
+  "name": "personal-expense-tracker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Modern personal daily expense tracker with voice input and smart categories",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "nodemon server/index.js",
+    "client:dev": "cd client && npx vite --host",
+    "build": "cd client && npx vite build",
+    "start": "node server/index.js",
+    "setup": "npm install && cd client && npm install && cd .. && npm run build"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.7"
+  }
+}

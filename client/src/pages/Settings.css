@@ -1,0 +1,37 @@
+.settings-section { margin-bottom: 16px; }
+.settings-section h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; }
+.settings-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; }
+
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.settings-row:last-child { border-bottom: none; }
+.settings-row.clickable { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.settings-label { font-size: 0.9rem; font-weight: 500; }
+.settings-value { font-size: 0.9rem; color: var(--text-muted); }
+
+.toggle {
+  width: 48px; height: 28px;
+  border-radius: 14px;
+  background: var(--border);
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--gradient); }
+.toggle-thumb {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 3px; left: 3px;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+.toggle.on .toggle-thumb { transform: translateX(20px); }
+
+.budget-input-row { display: flex; gap: 10px; }
+.budget-input-row .input { flex: 1; }
+.budget-input-row .btn { white-space: nowrap; }
